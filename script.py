@@ -95,30 +95,26 @@ def regressionObjVal(w, X, y, lambd):
     # compute squared error (scalar) and gradient of squared error with respect
     # to w (vector) for the given data X and y and the regularization parameter
     # lambda                                                                  
-    # IMPLEMENT THIS METHOD                                             
-  #  N = X.shape[0]
-   # m1 = np.transpose(ytest - np.dot(X,w))
-    #m2 = ytest - np.dot(X,w)
-    #print(m1.shape)
-    #print(m2.shape)
-    #m3 = (np.dot(m1,m2))/(2*N)
-    #error = (m3 + lambd*np.dot(np.transpose(w),w))
-    n = y.shape[0];
-    x1 = np.dot(X,w)
-    error = (np.square(y - x1))/n
-    reg = lambd*np.dot(np.transpose(w),w)
-    
-    error = error + reg
-    
-    x2 = x1 - y
-    x3 = (np.dot(X.transpose(), np.dot(X, x2)))/n
-    print(x3)
-    error_grad = 2*(x3 + (lambd*w))
-    
-   # error = sum((y - (X*w)).^2)/size(y,1) + lambda*(transpose(w)*w);
-   #  error_grad = 2*(transpose(X)*(X*w-y))/size(y,1) + 2*lambda*w;
+    # IMPLEMENT THIS METHOD
 
-    return error, error_grad
+    N = X.shape[0]
+    A = np.dot(X, w)
+    B = pow((y - A),2)
+    C = np.dot(lambd, (np.dot(w.transpose(), w)))
+    error = np.dot((1/N), (np.sum(B))+C)
+
+    deviation = np.dot(X, w) - y
+    A = (2/N) * np.dot(deviation.transpose(), X)
+    B = np.dot(lambd, w.transpose())
+    error_grad = A + B
+    error_grad = error_grad.transpose()
+
+    error_grad = error
+
+    print("error is: ", error)
+    print("error_grad is: ", error_grad)
+    return error_grad, error
+    #error_grad = (-2 / size(X, 1)) * (transpose(X) * y - transpose(X) * X * w - lambda * size(X, 1) * w);
 
 def mapNonLinear(x,p):
     # Inputs:                                                                  
